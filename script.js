@@ -133,15 +133,6 @@ function displayRiskDetails(container, gasName, riskData) {
 
 
 
-
-
-
-
-
-
-
-
-
 // Fetch data when the page loads
 window.addEventListener('load', () => {
     fetchData('9W440UROYTM3K2OX', 1, 'dataContainer'); // Replace with your API key and container ID
