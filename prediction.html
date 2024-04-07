@@ -23,13 +23,13 @@
         <div id="dataContainer"></div>
     </main>
     <textarea id="output" rows="4" cols="50" placeholder="output data from python server"></textarea>
-
+    <br><button onclick="runPythonCode()">Run Python Code</button>
+    <div id="output"></div>
     <script>
-        function runPythonCode() {
-    // Get input data
-    var inputData = document.getElementById('inputData').value;
+        function runPythonCode(inputData) {
+            // Get input data
 
-    // Make a POST request to the API
+            // Make a POST request to the API
     fetch('https://govindprasad.pythonanywhere.com/run_python_code', {
         method: 'POST',
         headers: {
@@ -66,49 +66,7 @@ function fetchData(apiKey, results, containerId) {
                     let dataElement = document.createElement('div');
 
 
-                    const co2Risk = calculateRisk(parseFloat(feed['field1']), 'CO2');
-                    const methaneRisk = calculateRisk(parseFloat(feed['field2']), 'Methane');
-                    const no2Risk = calculateRisk(parseFloat(feed['field3']), 'NO2');
-                    const coRisk = calculateRisk(parseFloat(feed['field4']), 'CO');
-                    const so2Risk = calculateRisk(parseFloat(feed['field5']), 'SO2');
-                    const ozoneRisk = calculateRisk(parseFloat(feed['field8']), 'Ozone');
-
-                    // fieldIds.forEach(fieldId => {
-                    //     const value = parseFloat(feed[`field${fieldId}`]);
-                    //     dataElement.innerHTML += `<strong>Field ${fieldId}:</strong> ${value}<br>`;
-                    // });
-
-                    dataElement.innerHTML += `<strong>Timestamp:</strong> ${timestamp}<br>`;
-
-                    var value = parseFloat(feed[`field1`]);
-                    dataElement.innerHTML += `<strong> CO2 cocentration :</strong> ${value}ppm<br>`;
-                    displayRiskDetails(dataElement, 'CO2', co2Risk);
-
-                    var value = parseFloat(feed[`field2`]);
-                    dataElement.innerHTML += `<br><strong> Methane :</strong> ${value}ppm <br>`;
-                    displayRiskDetails(dataElement, 'Methane', methaneRisk);
-
-                    var value = parseFloat(feed[`field3`]);
-                    dataElement.innerHTML += `<br><strong> NO2 :</strong> ${value}ppm <br>`;
-                    displayRiskDetails(dataElement, 'NO2', no2Risk);
-
-                    var value = parseFloat(feed[`field4`]);
-                    dataElement.innerHTML += `<br><strong> CO :</strong> ${value}ppm <br>`;
-                    displayRiskDetails(dataElement, 'CO', coRisk);
-
-                    var value = parseFloat(feed[`field5`]);
-                    dataElement.innerHTML += `<br><strong> SO2 :</strong> ${value}ppm <br>`;
-                    displayRiskDetails(dataElement, 'SO2', so2Risk);
-
-                    var value = parseFloat(feed[`field6`]);
-                    dataElement.innerHTML += `<br><strong> Temperature :</strong> ${value}°C<br>`;
-                    var value = parseFloat(feed[`field7`]);
-                    dataElement.innerHTML += `<br><strong> Humidity :</strong> ${value}%<br>`;
-                    var value = parseFloat(feed[`field8`]);
-                    dataElement.innerHTML += `<br><strong> Ozone :</strong> ${value}ppm <br>`;
-                    displayRiskDetails(dataElement, 'Ozone', ozoneRisk);
-
-
+                    const CO_input = parseFloat(feed['field4'])
 
                         
 
