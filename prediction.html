@@ -25,14 +25,10 @@
     <br><button onclick="runPythonCode()">Run Python Code</button>
     <div id="output"></div>
     <script>
-        var inputData = {
-"one" : 23,
-"two" : 23,
-"three" : 34
-}
-        function runPythonCode(inputData) {
+        
+        function runPythonCode() {
             // Get input data
-
+            var inputData = document.getElementById('output').innerText
             // Make a POST request to the API
     fetch('http://127.0.0.1:5000/run_python_code', {
         method: 'POST',
