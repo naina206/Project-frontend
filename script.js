@@ -53,34 +53,36 @@ function fetchData(apiKey, results, containerId) {
                     //     dataElement.innerHTML += `<strong>Field ${fieldId}:</strong> ${value}<br>`;
                     // });
 
-                    dataElement.innerHTML += `<strong>Timestamp:</strong> ${timestamp}<br>`;
-
-                    var value = parseFloat(feed[`field1`]);
-                    dataElement.innerHTML += `<strong> CO2 cocentration :</strong> ${value}ppm<br>`;
-                    displayRiskDetails(dataElement, 'CO2', co2Risk);
-
-                    var value = parseFloat(feed[`field2`]);
-                    dataElement.innerHTML += `<br><strong> Methane :</strong> ${value}ppm <br>`;
-                    displayRiskDetails(dataElement, 'Methane', methaneRisk);
-
-                    var value = parseFloat(feed[`field3`]);
-                    dataElement.innerHTML += `<br><strong> NO2 :</strong> ${value}ppm <br>`;
-                    displayRiskDetails(dataElement, 'NO2', no2Risk);
-
-                    var value = parseFloat(feed[`field4`]);
-                    dataElement.innerHTML += `<br><strong> CO :</strong> ${value}ppm <br>`;
-                    displayRiskDetails(dataElement, 'CO', coRisk);
-
-                    var value = parseFloat(feed[`field5`]);
-                    dataElement.innerHTML += `<br><strong> SO2 :</strong> ${value}ppm <br>`;
-                    displayRiskDetails(dataElement, 'SO2', so2Risk);
+                    dataElement.innerHTML += `<strong>Timestamp: ${timestamp}</strong><br><br>`;
+                    
 
                     var value = parseFloat(feed[`field6`]);
                     dataElement.innerHTML += `<br><strong> Temperature :</strong> ${value}°C<br>`;
                     var value = parseFloat(feed[`field7`]);
                     dataElement.innerHTML += `<br><strong> Humidity :</strong> ${value}%<br>`;
                     var value = parseFloat(feed[`field8`]);
-                    dataElement.innerHTML += `<br><strong> Ozone :</strong> ${value}ppm <br>`;
+                    var value = parseFloat(feed[`field1`]);
+                    dataElement.innerHTML += `<strong> CO2 concentration :</strong> ${value}ppm<br>`;
+                    displayRiskDetails(dataElement, 'CO2', co2Risk);
+
+                    var value = parseFloat(feed[`field2`]);
+                    dataElement.innerHTML += `<br><strong> Methane concentration:</strong> ${value}ppm <br>`;
+                    displayRiskDetails(dataElement, 'Methane', methaneRisk);
+
+                    var value = parseFloat(feed[`field3`]);
+                    dataElement.innerHTML += `<br><strong> NO2 concentration:</strong> ${value}ppm <br>`;
+                    displayRiskDetails(dataElement, 'NO2', no2Risk);
+
+                    var value = parseFloat(feed[`field4`]);
+                    dataElement.innerHTML += `<br><strong> CO concentration:</strong> ${value}ppm <br>`;
+                    displayRiskDetails(dataElement, 'CO', coRisk);
+
+                    var value = parseFloat(feed[`field5`]);
+                    dataElement.innerHTML += `<br><strong> SO2 concentration:</strong> ${value}ppm <br>`;
+                    displayRiskDetails(dataElement, 'SO2', so2Risk);
+
+                    
+                    dataElement.innerHTML += `<br><strong> Ozone concentration:</strong> ${value}ppm <br>`;
                     displayRiskDetails(dataElement, 'Ozone', ozoneRisk);
 
 
