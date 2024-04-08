@@ -21,6 +21,7 @@
         
         
     </main>
+    <input type="text" id="inputData" placeholder="Enter input data"><br>
     <textarea id="output" rows="4" cols="50" placeholder="output data from python server"></textarea>
     <br><button onclick="runPythonCode()">Run Python Code</button>
     <div id="output"></div>
@@ -28,7 +29,8 @@
         
         function runPythonCode() {
             // Get input data
-            var inputData = document.getElementById('output').innerText
+            var inputData = document.getElementById('inputData').value;
+        console.log(inputData);
             // Make a POST request to the API
     fetch('http://127.0.0.1:5000/run_python_code', {
         method: 'POST',
