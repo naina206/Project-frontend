@@ -59,7 +59,7 @@ function fetchData(apiKey, results, containerId) {
                     var value = parseFloat(feed[`field6`]);
                     dataElement.innerHTML += `<br><strong> Temperature :</strong> ${value}°C<br>`;
                     var value = parseFloat(feed[`field7`]);
-                    dataElement.innerHTML += `<br><strong> Humidity :</strong> ${value}%<br>`;
+                    dataElement.innerHTML += `<br><strong> Humidity :</strong> ${value}% <br>`;
                     var value = parseFloat(feed[`field8`]);
                     var value = parseFloat(feed[`field1`]);
                     dataElement.innerHTML += `<strong> CO2 concentration :</strong> ${value}ppm<br>`;
