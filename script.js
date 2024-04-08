@@ -60,7 +60,6 @@ function fetchData(apiKey, results, containerId) {
                     dataElement.innerHTML += `<br><strong> Temperature :</strong> ${value}°C<br>`;
                     var value = parseFloat(feed[`field7`]);
                     dataElement.innerHTML += `<br><strong> Humidity :</strong> ${value}% <br>`;
-                    var value = parseFloat(feed[`field8`]);
                     var value = parseFloat(feed[`field1`]);
                     dataElement.innerHTML += `<strong> CO2 concentration :</strong> ${value}ppm<br>`;
                     displayRiskDetails(dataElement, 'CO2', co2Risk);
@@ -82,6 +81,7 @@ function fetchData(apiKey, results, containerId) {
                     displayRiskDetails(dataElement, 'SO2', so2Risk);
 
                     
+                    var value = parseFloat(feed[`field8`]);
                     dataElement.innerHTML += `<br><strong> Ozone concentration:</strong> ${value}ppm <br>`;
                     displayRiskDetails(dataElement, 'Ozone', ozoneRisk);
 
