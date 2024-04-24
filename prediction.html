@@ -24,7 +24,9 @@
     <input type="text" id="inputData" placeholder="Enter input data"><br>
     <textarea id="output" rows="4" cols="50" placeholder="output data from python server"></textarea>
     <br><button onclick="predictCO()">predict CO</button>
-    <br><button onclick="predictCO()">predict NO2</button>
+    <br><button onclick="predictNO2()">predict NO2</button>
+    <br><button onclick="predictO3()">predict O3</button>
+
 
     <div id="output"></div>
     <script>
@@ -73,7 +75,28 @@ function predictNO2() {
         console.error('Error:', error);
     });
 }
-
+function predictO3() {
+            // Get input data
+            var inputData = document.getElementById('inputData').value;
+        console.log(inputData);
+            // Make a POST request to the API
+    fetch('http://127.0.0.1:5000/predictO3', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: inputData})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display output
+        console.log(data)
+        document.getElementById('output').innerText = data.output;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 
 
