@@ -5,6 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Air Quality Monitoring</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+        #inputData {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 300px;
+        }
+        textarea {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 300px;
+            height: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -13,22 +74,18 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="prediction.html">Prediction</a></li>
-
             </ul>
         </nav>
     </header>
     <main>
-        
-        
+        <input type="text" id="inputData" placeholder="Enter input data"><br>
+        <textarea id="output" rows="4" cols="50" placeholder="Output data from Python server"></textarea>
+        <br>
+        <button onclick="predictCO()">Predict CO</button>
+        <button onclick="predictNO2()">Predict NO2</button>
+        <button onclick="predictO3()">Predict O3</button>
     </main>
-    <input type="text" id="inputData" placeholder="Enter input data"><br>
-    <textarea id="output" rows="4" cols="50" placeholder="output data from python server"></textarea>
-    <br><button onclick="predictCO()">predict CO</button>
-    <br><button onclick="predictNO2()">predict NO2</button>
-    <br><button onclick="predictO3()">predict O3</button>
 
-
-    <div id="output"></div>
     <script>
         
         function predictCO() {
