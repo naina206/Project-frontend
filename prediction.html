@@ -84,6 +84,9 @@
         <button onclick="predictCO()">Predict CO</button>
         <button onclick="predictNO2()">Predict NO2</button>
         <button onclick="predictO3()">Predict O3</button>
+        <button onclick="predictSO2()">Predict SO2</button>
+        <button onclick="predictPM10()">Predict PM10</button>
+        <button onclick="predictPM25()">Predict PM25</button>
     </main>
 
     <script>
@@ -155,6 +158,74 @@ function predictO3() {
     });
 }
 
+function predictSO2() {
+            // Get input data
+            var inputData = document.getElementById('inputData').value;
+        console.log(inputData);
+            // Make a POST request to the API
+    fetch('http://127.0.0.1:5000/predictSO2', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: inputData})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display output
+        console.log(data)
+        document.getElementById('output').innerText = data.output;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function predictPM10() {
+            // Get input data
+            var inputData = document.getElementById('inputData').value;
+        console.log(inputData);
+            // Make a POST request to the API
+    fetch('http://127.0.0.1:5000/predictPM10', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: inputData})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display output
+        console.log(data)
+        document.getElementById('output').innerText = data.output;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function predictPM25() {
+            // Get input data
+            var inputData = document.getElementById('inputData').value;
+        console.log(inputData);
+            // Make a POST request to the API
+    fetch('http://127.0.0.1:5000/predictPM25', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: inputData})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display output
+        console.log(data)
+        document.getElementById('output').innerText = data.output;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 
 
