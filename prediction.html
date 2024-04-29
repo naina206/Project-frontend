@@ -92,11 +92,51 @@
 
     <script>
 
+// function fetchData(apiKey, fieldIds) {
+//     return new Promise((resolve, reject) => {
+//         const fieldQueries = fieldIds.map(fieldId => `field${fieldId}`).join(',');
+//         const url = `https://api.thingspeak.com/channels/2443974/feeds.json?api_key=${apiKey}&results=3&${fieldQueries}`;
+//         console.log("inside fetch");
+//         fetch(url)
+//             .then(response => response.json())
+//             .then(data => {
+//                 if (data.feeds && data.feeds.length > 0) {
+//                     // Create an object to store the last 3 readings
+//                     const lastReadings = {};
+
+//                     data.feeds.forEach((feed, index) => {
+//                         const key = index === 0 ? "one" : index === 1 ? "two" : "three";
+//                         lastReadings[key] = {};
+
+//                         fieldIds.forEach(fieldId => {
+//                             const value = parseFloat(feed[`field${fieldId}`]);
+//                             lastReadings[key][`field${fieldId}`] = value;
+//                         });
+//                     });
+
+//                     // Convert the object to JSON format
+//                     const jsonData = JSON.stringify(lastReadings);
+
+//                     // Resolve the Promise with the JSON data
+//                     resolve(jsonData);
+//                 } else {
+//                     // Reject the Promise if no data available
+//                     reject('No data available.');
+//                 }
+//             })
+//             .catch(error => {
+//                 // Reject the Promise if there's an error fetching data
+//                 reject(`Error fetching data: ${error}`);
+//             });
+//     });
+// }
+
+
 function fetchData(apiKey, fieldIds) {
     return new Promise((resolve, reject) => {
         const fieldQueries = fieldIds.map(fieldId => `field${fieldId}`).join(',');
         const url = `https://api.thingspeak.com/channels/2443974/feeds.json?api_key=${apiKey}&results=3&${fieldQueries}`;
-        console.log("inside fetch");
+
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -109,8 +149,11 @@ function fetchData(apiKey, fieldIds) {
                         lastReadings[key] = {};
 
                         fieldIds.forEach(fieldId => {
-                            const value = parseFloat(feed[`field${fieldId}`]);
-                            lastReadings[key][`field${fieldId}`] = value;
+                            // Exclude field1 from the response
+                            if (fieldId !== 1) {
+                                const value = parseFloat(feed[`field${fieldId}`]);
+                                lastReadings[key][`field${fieldId}`] = value;
+                            }
                         });
                     });
 
@@ -130,6 +173,8 @@ function fetchData(apiKey, fieldIds) {
             });
     });
 }
+
+
 
 
         function predictCO() {
