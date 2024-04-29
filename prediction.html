@@ -208,15 +208,16 @@ function fetchData(apiKey, fieldIds) {
 }
 function predictNO2() {
             // Get input data
-            var inputData = document.getElementById('inputData').value;
-        console.log(inputData);
-            // Make a POST request to the API
-    fetch('http://127.0.0.1:5000/predictNO2', {
+            console.log("inside predict NO2");
+            fetchData('9W440UROYTM3K2OX',  [3])
+                .then(jsonData => {
+                    console.log(jsonData);
+                    fetch('http://127.0.0.1:5000/predictNO2', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({data: inputData})
+        body: JSON.stringify({data: jsonData})
     })
     .then(response => response.json())
     .then(data => {
@@ -227,18 +228,29 @@ function predictNO2() {
     .catch(error => {
         console.error('Error:', error);
     });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+        //     var inputData = document.getElementById('inputData').value;
+        // console.log(inputData);
+            // Make a POST request to the API
+    
 }
 function predictO3() {
             // Get input data
-            var inputData = document.getElementById('inputData').value;
-        console.log(inputData);
-            // Make a POST request to the API
-    fetch('http://127.0.0.1:5000/predictO3', {
+            console.log("inside predict O3");
+            fetchData('9W440UROYTM3K2OX',  [6])
+                .then(jsonData => {
+                    console.log(jsonData);
+                    fetch('http://127.0.0.1:5000/predictO3', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({data: inputData})
+        body: JSON.stringify({data: jsonData})
     })
     .then(response => response.json())
     .then(data => {
@@ -249,19 +261,30 @@ function predictO3() {
     .catch(error => {
         console.error('Error:', error);
     });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+        //     var inputData = document.getElementById('inputData').value;
+        // console.log(inputData);
+            // Make a POST request to the API
+    
 }
 
 function predictSO2() {
             // Get input data
-            var inputData = document.getElementById('inputData').value;
-        console.log(inputData);
-            // Make a POST request to the API
-    fetch('http://127.0.0.1:5000/predictSO2', {
+            console.log("inside predict SO2");
+            fetchData('9W440UROYTM3K2OX',  [5])
+                .then(jsonData => {
+                    console.log(jsonData);
+                    fetch('http://127.0.0.1:5000/predictSO2', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({data: inputData})
+        body: JSON.stringify({data: jsonData})
     })
     .then(response => response.json())
     .then(data => {
@@ -272,6 +295,16 @@ function predictSO2() {
     .catch(error => {
         console.error('Error:', error);
     });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+        //     var inputData = document.getElementById('inputData').value;
+        // console.log(inputData);
+            // Make a POST request to the API
+    
 }
 
 function predictPM10() {
