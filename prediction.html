@@ -177,24 +177,15 @@ function fetchData(apiKey, fieldIds) {
         function predictCO() {
             // Get input data
             console.log("inside predict CO");
-            fetchData('9W440UROYTM3K2OX',  [1])
+            fetchData('9W440UROYTM3K2OX',  [4])
                 .then(jsonData => {
                     console.log(jsonData);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-
-
-            var inputData = document.getElementById('inputData').value;
-        console.log(inputData);
-            // Make a POST request to the API
-    fetch('http://127.0.0.1:5000/predictCO', {
+                    fetch('http://127.0.0.1:5000/predictCO', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({data: inputData})
+        body: JSON.stringify({data: jsonData})
     })
     .then(response => response.json())
     .then(data => {
@@ -205,6 +196,16 @@ function fetchData(apiKey, fieldIds) {
     .catch(error => {
         console.error('Error:', error);
     });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+        //     var inputData = document.getElementById('inputData').value;
+        // console.log(inputData);
+            // Make a POST request to the API
+    
 }
 function predictNO2() {
             // Get input data
