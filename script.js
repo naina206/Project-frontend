@@ -1,6 +1,6 @@
 // Function to fetch data from ThingSpeak API
 // function fetchData(apiKey, results, containerId) {
-//     fetch(`https://api.thingspeak.com/channels/2443974/feeds.json?api_key=${apiKey}&results=${results}`)
+//     fetch(`https://api.thingspeak.com/channels/2441348/feeds.json?api_key=${apiKey}&results=${results}`)
 //         .then(response => response.json())
 //         .then(data => {
 //             const container = document.getElementById(containerId);
