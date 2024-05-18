@@ -53,32 +53,39 @@ function fetchData(apiKey, results, containerId) {
                     //     dataElement.innerHTML += `<strong>Field ${fieldId}:</strong> ${value}<br>`;
                     // });
 
-                    dataElement.innerHTML += `<strong>Timestamp:</strong> ${timestamp}<br>`;
+                    dataElement.innerHTML += `<strong>Timestamp: ${timestamp}</strong><br><br>`;
+                    
 
-                    var value = parseFloat(feed[`field1`]);
-                    dataElement.innerHTML += `<strong> CO2 :</strong> ${value}    <strong>    Risk:</strong> <span style="color: ${co2Risk.color}">${co2Risk.level}</span><br>`;
-                    var value = parseFloat(feed[`field2`]);
-                    dataElement.innerHTML += `<strong> Methane :</strong> ${value}    <strong>    Risk:</strong> <span style="color: ${methaneRisk.color}">${methaneRisk.level}</span><br>`;
-                    var value = parseFloat(feed[`field3`]);
-                    dataElement.innerHTML += `<strong> NO2 :</strong> ${value}    <strong>    Risk:</strong> <span style="color: ${no2Risk.color}">${no2Risk.level}</span><br>`;
-                    var value = parseFloat(feed[`field4`]);
-                    dataElement.innerHTML += `<strong> CO :</strong> ${value}    <strong>     Risk:</strong> <span style="color: ${coRisk.color}">${coRisk.level}</span><br>`;
-                    var value = parseFloat(feed[`field5`]);
-                    dataElement.innerHTML += `<strong> SO2 :</strong> ${value}    <strong>    Risk:</strong> <span style="color: ${so2Risk.color}">${so2Risk.level}</span><br>`;
                     var value = parseFloat(feed[`field6`]);
-                    dataElement.innerHTML += `<strong> Temperature :</strong> ${value}<br>`;
+                    dataElement.innerHTML += `<br><strong> Temperature :</strong> ${value}°C<br>`;
                     var value = parseFloat(feed[`field7`]);
-                    dataElement.innerHTML += `<strong> Humidity :</strong> ${value}<br>`;
-                    var value = parseFloat(feed[`field8`]);
-                    dataElement.innerHTML += `<strong> Ozone :</strong> ${value}    <strong>    Risk:</strong> <span style="color: ${ozoneRisk.color}">${ozoneRisk.level}</span><br>`;
-
-
+                    dataElement.innerHTML += `<br><strong> Humidity :</strong> ${value}% <br>`;
+                    var value = parseFloat(feed[`field1`]);
+                    dataElement.innerHTML += `<strong> CO2 concentration :</strong> ${value}ppm<br>`;
                     displayRiskDetails(dataElement, 'CO2', co2Risk);
+
+                    var value = parseFloat(feed[`field2`]);
+                    dataElement.innerHTML += `<br><strong> Methane concentration:</strong> ${value}ppm <br>`;
                     displayRiskDetails(dataElement, 'Methane', methaneRisk);
+
+                    var value = parseFloat(feed[`field3`]);
+                    dataElement.innerHTML += `<br><strong> NO2 concentration:</strong> ${value}ppm <br>`;
                     displayRiskDetails(dataElement, 'NO2', no2Risk);
+
+                    var value = parseFloat(feed[`field4`]);
+                    dataElement.innerHTML += `<br><strong> CO concentration:</strong> ${value}ppm <br>`;
                     displayRiskDetails(dataElement, 'CO', coRisk);
+
+                    var value = parseFloat(feed[`field5`]);
+                    dataElement.innerHTML += `<br><strong> SO2 concentration:</strong> ${value}ppm <br>`;
                     displayRiskDetails(dataElement, 'SO2', so2Risk);
+
+                    
+                    var value = parseFloat(feed[`field8`]);
+                    dataElement.innerHTML += `<br><strong> Ozone concentration:</strong> ${value}ppm <br>`;
                     displayRiskDetails(dataElement, 'Ozone', ozoneRisk);
+
+
 
                         
 
@@ -94,29 +101,106 @@ function fetchData(apiKey, results, containerId) {
 }
 
 
-// Function to calculate risk level, color, and details based on gas concentration
 function calculateRisk(value, gasName) {
     let riskLevel = 'Low';
     let color = 'green';
     let riskDetails = 'No significant risk.';
 
-    if (gasName === 'CO' && value > 10) {
-        riskLevel = 'High';
-        color = 'red';
-        riskDetails = 'High risk of carbon monoxide poisoning.';
-    } else if (gasName === 'NO2' && value > 100) {
-        riskLevel = 'High';
-        color = 'red';
-        riskDetails = 'High levels of nitrogen dioxide can cause respiratory problems.';
-    } else if (gasName === 'SO2' && value > 20) {
-        riskLevel = 'High';
-        color = 'red';
-        riskDetails = 'High concentrations of sulfur dioxide can irritate the respiratory system.';
+    if (gasName === 'PM2.5') {
+        if (value < 10) {
+            riskLevel = 'Low';
+            color = 'green';
+            riskDetails = 'No significant risk.';
+        } else if (value < 25) {
+            riskLevel = 'Moderate';
+            color = 'yellow';
+            riskDetails = 'Moderate risk of respiratory symptoms.';
+        } else if (value < 35) {
+            riskLevel = 'High';
+            color = 'orange';
+            riskDetails = 'High risk of respiratory and cardiovascular problems.';
+        } else {
+            riskLevel = 'Very High';
+            color = 'red';
+            riskDetails = 'Very high risk of severe health impacts.';
+        }
+    } else if (gasName === 'O3') {
+        if (value < 50) {
+            riskLevel = 'Low';
+            color = 'green';
+            riskDetails = 'No significant risk.';
+        } else if (value < 100) {
+            riskLevel = 'Moderate';
+            color = 'yellow';
+            riskDetails = 'Moderate risk of respiratory symptoms.';
+        } else if (value < 150) {
+            riskLevel = 'High';
+            color = 'orange';
+            riskDetails = 'High risk of respiratory problems and reduced lung function.';
+        } else {
+            riskLevel = 'Very High';
+            color = 'red';
+            riskDetails = 'Very high risk of severe respiratory issues.';
+        }
+    } else if (gasName === 'CO') {
+        if (value < 5) {
+            riskLevel = 'Low';
+            color = 'green';
+            riskDetails = 'No significant risk.';
+        } else if (value < 10) {
+            riskLevel = 'Moderate';
+            color = 'yellow';
+            riskDetails = 'Moderate risk of carbon monoxide exposure.';
+        } else if (value < 20) {
+            riskLevel = 'High';
+            color = 'orange';
+            riskDetails = 'High risk of carbon monoxide poisoning.';
+        } else {
+            riskLevel = 'Very High';
+            color = 'red';
+            riskDetails = 'Very high risk of severe carbon monoxide poisoning.';
+        }
+    } else if (gasName === 'SO2') {
+        if (value < 20) {
+            riskLevel = 'Low';
+            color = 'green';
+            riskDetails = 'No significant risk.';
+        } else if (value < 75) {
+            riskLevel = 'Moderate';
+            color = 'yellow';
+            riskDetails = 'Moderate risk of respiratory irritation.';
+        } else if (value < 185) {
+            riskLevel = 'High';
+            color = 'orange';
+            riskDetails = 'High risk of respiratory system irritation and problems.';
+        } else {
+            riskLevel = 'Very High';
+            color = 'red';
+            riskDetails = 'Very high risk of severe respiratory system irritation.';
+        }
+    } else if (gasName === 'NO2') {
+        if (value < 40) {
+            riskLevel = 'Low';
+            color = 'green';
+            riskDetails = 'No significant risk.';
+        } else if (value < 100) {
+            riskLevel = 'Moderate';
+            color = 'yellow';
+            riskDetails = 'Moderate risk of respiratory problems.';
+        } else if (value < 200) {
+            riskLevel = 'High';
+            color = 'orange';
+            riskDetails = 'High risk of respiratory issues and lung function impairment.';
+        } else {
+            riskLevel = 'Very High';
+            color = 'red';
+            riskDetails = 'Very high risk of severe respiratory problems.';
+        }
     }
-    // You can add more conditions to assess risk levels and details for other gases
 
     return { level: riskLevel, color, details: riskDetails };
 }
+
 
 
 // Function to display risk details in the output
@@ -128,16 +212,8 @@ function displayRiskDetails(container, gasName, riskData) {
 
 
 
-
-
-
-
-
-
-
-
-
 // Fetch data when the page loads
 window.addEventListener('load', () => {
     fetchData('9W440UROYTM3K2OX', 1, 'dataContainer'); // Replace with your API key and container ID
 });
+// testing

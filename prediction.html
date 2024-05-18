@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Monitoring</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+        #inputData {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 300px;
+        }
+        textarea {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 300px;
+            height: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Air Quality Monitoring System</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="prediction.html">Prediction</a></li>
+                <li><a href="graphs.html">Graphs</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <textarea id="output" rows="4" cols="50" placeholder="Output data from Python server"></textarea>
+        <br>
+        <button onclick="predictCO()">Predict CO</button>
+
+        <button onclick="predictNO2()">Predict NO2</button>
+        <button onclick="predictO3()">Predict O3</button>
+        <button onclick="predictSO2()">Predict SO2</button>
+	<!--
+        <button onclick="predictPM10()">Predict PM10</button>
+        <button onclick="predictPM25()">Predict PM2.5</button>
+	-->
+    </main>
+
+    <script>
+
+
+function fetchData(apiKey, fieldIds) {
+    return new Promise((resolve, reject) => {
+        const fieldQueries = fieldIds.map(fieldId => `field${fieldId}`).join(',');
+        const url = `https://api.thingspeak.com/channels/2443974/feeds.json?api_key=${apiKey}&results=3&${fieldQueries}`;
+        console.log("inside fetch");
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.feeds && data.feeds.length > 0) {
+                    // Create an object to store the last 3 readings
+                    const lastReadings = {};
+
+                    data.feeds.forEach((feed, index) => {
+                        const key = index === 0 ? "one" : index === 1 ? "two" : "three";
+                        lastReadings[key] = {};
+
+                        fieldIds.forEach(fieldId => {
+                            const value = parseFloat(feed[`field${fieldId}`]);
+                            lastReadings[key][`field${fieldId}`] = value;
+                        });
+                    });
+
+                    // Convert the object to JSON format
+                    const jsonData = JSON.stringify(lastReadings);
+
+                    // Resolve the Promise with the JSON data
+                    resolve(jsonData);
+                } else {
+                    // Reject the Promise if no data available
+                    reject('No data available.');
+                }
+            })
+            .catch(error => {
+                // Reject the Promise if there's an error fetching data
+                reject(`Error fetching data: ${error}`);
+            });
+    });
+}
+
+function fetchData(apiKey, fieldIds) {
+    return new Promise((resolve, reject) => {
+        const fieldQueries = fieldIds.map(fieldId => `field${fieldId}`).join(',');
+        const url = `https://api.thingspeak.com/channels/2443974/feeds.json?api_key=${apiKey}&results=3&${fieldQueries}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.feeds && data.feeds.length > 0) {
+                    // Create an object to store the last 3 readings
+                    const lastReadings = {};
+
+                    data.feeds.forEach((feed, index) => {
+                        const key = index === 0 ? "one" : index === 1 ? "two" : "three";
+
+                        // Get the value for the current field
+                        const value = parseFloat(feed[`field${fieldIds[0]}`]);
+
+                        // Store the value for the current key
+                        lastReadings[key] = value;
+                    });
+
+                    // Convert the object to JSON format
+                    const jsonData = JSON.stringify(lastReadings);
+
+                    // Resolve the Promise with the JSON data
+                    resolve(jsonData);
+                } else {
+                    // Reject the Promise if no data available
+                    reject('No data available.');
+                }
+            })
+            .catch(error => {
+                // Reject the Promise if there's an error fetching data
+                reject(`Error fetching data: ${error}`);
+            });
+    });
+}
+
+
+
+
+        function predictCO() {
+            // Get input data
+            console.log("inside predict CO");
+            fetchData('9W440UROYTM3K2OX',  [4])
+                .then(jsonData => {
+                    console.log(jsonData);
+                    fetch('http://127.0.0.1:5000/predictCO', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: jsonData})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display output
+        console.log(data)
+        document.getElementById('output').innerText = data.output;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+        //     var inputData = document.getElementById('inputData').value;
+        // console.log(inputData);
+            // Make a POST request to the API
+    
+}
+function predictNO2() {
+            // Get input data
+            console.log("inside predict NO2");
+            fetchData('9W440UROYTM3K2OX',  [3])
+                .then(jsonData => {
+                    console.log(jsonData);
+                    fetch('http://127.0.0.1:5000/predictNO2', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: jsonData})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display output
+        console.log(data)
+        document.getElementById('output').innerText = data.output;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+        //     var inputData = document.getElementById('inputData').value;
+        // console.log(inputData);
+            // Make a POST request to the API
+    
+}
+function predictO3() {
+            // Get input data
+            console.log("inside predict O3");
+            fetchData('9W440UROYTM3K2OX',  [6])
+                .then(jsonData => {
+                    console.log(jsonData);
+                    fetch('http://127.0.0.1:5000/predictO3', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: jsonData})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display output
+        console.log(data)
+        document.getElementById('output').innerText = data.output;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+        //     var inputData = document.getElementById('inputData').value;
+        // console.log(inputData);
+            // Make a POST request to the API
+    
+}
+
+function predictSO2() {
+            // Get input data
+            console.log("inside predict SO2");
+            fetchData('9W440UROYTM3K2OX',  [5])
+                .then(jsonData => {
+                    console.log(jsonData);
+                    fetch('http://127.0.0.1:5000/predictSO2', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: jsonData})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display output
+        console.log(data)
+        document.getElementById('output').innerText = data.output;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+
+        //     var inputData = document.getElementById('inputData').value;
+        // console.log(inputData);
+            // Make a POST request to the API
+    
+}
+
+function predictPM10() {
+            // Get input data
+            var inputData = document.getElementById('inputData').value;
+        console.log(inputData);
+            // Make a POST request to the API
+    fetch('http://127.0.0.1:5000/predictPM10', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: inputData})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display output
+        console.log(data)
+        document.getElementById('output').innerText = data.output;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function predictPM25() {
+            // Get input data
+            var inputData = document.getElementById('inputData').value;
+        console.log(inputData);
+            // Make a POST request to the API
+    fetch('http://127.0.0.1:5000/predictPM25', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({data: inputData})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display output
+        console.log(data)
+        document.getElementById('output').innerText = data.output;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
