@@ -29,7 +29,7 @@ function fetchData(apiKey, results, containerId) {
     const fieldQueries = fieldIds.map(fieldId => `field${fieldId}`);
     const fieldsQuery = fieldQueries.join(',');
 
-    fetch(`https://api.thingspeak.com/channels/2443974/feeds.json?api_key=${apiKey}&results=${results}&${fieldsQuery}`)
+    fetch(`https://api.thingspeak.com/channels/2441348/feeds.json?api_key=${apiKey}&results=${results}&${fieldsQuery}`)
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById(containerId);
