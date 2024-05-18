@@ -1,6 +1,6 @@
 // Function to fetch data from ThingSpeak API
 // function fetchData(apiKey, results, containerId) {
-//     fetch(`https://api.thingspeak.com/channels/2441348/feeds.json?api_key=${apiKey}&results=${results}`)
+//     fetch(`https://api.thingspeak.com/channels/2443974/feeds.json?api_key=${apiKey}&results=${results}`)
 //         .then(response => response.json())
 //         .then(data => {
 //             const container = document.getElementById(containerId);
@@ -29,7 +29,7 @@ function fetchData(apiKey, results, containerId) {
     const fieldQueries = fieldIds.map(fieldId => `field${fieldId}`);
     const fieldsQuery = fieldQueries.join(',');
 
-    fetch(`https://api.thingspeak.com/channels/2441348/feeds.json?api_key=${apiKey}&results=${results}&${fieldsQuery}`)
+    fetch(`https://api.thingspeak.com/channels/2443974/feeds.json?api_key=${apiKey}&results=${results}&${fieldsQuery}`)
         .then(response => response.json())
         .then(data => {
             const container = document.getElementById(containerId);
@@ -101,29 +101,106 @@ function fetchData(apiKey, results, containerId) {
 }
 
 
-// Function to calculate risk level, color, and details based on gas concentration
 function calculateRisk(value, gasName) {
     let riskLevel = 'Low';
     let color = 'green';
     let riskDetails = 'No significant risk.';
 
-    if (gasName === 'CO' && value > 10) {
-        riskLevel = 'High';
-        color = 'red';
-        riskDetails = 'High risk of carbon monoxide poisoning.';
-    } else if (gasName === 'NO2' && value > 100) {
-        riskLevel = 'High';
-        color = 'red';
-        riskDetails = 'High levels of nitrogen dioxide can cause respiratory problems.';
-    } else if (gasName === 'SO2' && value > 20) {
-        riskLevel = 'High';
-        color = 'red';
-        riskDetails = 'High concentrations of sulfur dioxide can irritate the respiratory system.';
+    if (gasName === 'PM2.5') {
+        if (value < 10) {
+            riskLevel = 'Low';
+            color = 'green';
+            riskDetails = 'No significant risk.';
+        } else if (value < 25) {
+            riskLevel = 'Moderate';
+            color = 'yellow';
+            riskDetails = 'Moderate risk of respiratory symptoms.';
+        } else if (value < 35) {
+            riskLevel = 'High';
+            color = 'orange';
+            riskDetails = 'High risk of respiratory and cardiovascular problems.';
+        } else {
+            riskLevel = 'Very High';
+            color = 'red';
+            riskDetails = 'Very high risk of severe health impacts.';
+        }
+    } else if (gasName === 'O3') {
+        if (value < 50) {
+            riskLevel = 'Low';
+            color = 'green';
+            riskDetails = 'No significant risk.';
+        } else if (value < 100) {
+            riskLevel = 'Moderate';
+            color = 'yellow';
+            riskDetails = 'Moderate risk of respiratory symptoms.';
+        } else if (value < 150) {
+            riskLevel = 'High';
+            color = 'orange';
+            riskDetails = 'High risk of respiratory problems and reduced lung function.';
+        } else {
+            riskLevel = 'Very High';
+            color = 'red';
+            riskDetails = 'Very high risk of severe respiratory issues.';
+        }
+    } else if (gasName === 'CO') {
+        if (value < 5) {
+            riskLevel = 'Low';
+            color = 'green';
+            riskDetails = 'No significant risk.';
+        } else if (value < 10) {
+            riskLevel = 'Moderate';
+            color = 'yellow';
+            riskDetails = 'Moderate risk of carbon monoxide exposure.';
+        } else if (value < 20) {
+            riskLevel = 'High';
+            color = 'orange';
+            riskDetails = 'High risk of carbon monoxide poisoning.';
+        } else {
+            riskLevel = 'Very High';
+            color = 'red';
+            riskDetails = 'Very high risk of severe carbon monoxide poisoning.';
+        }
+    } else if (gasName === 'SO2') {
+        if (value < 20) {
+            riskLevel = 'Low';
+            color = 'green';
+            riskDetails = 'No significant risk.';
+        } else if (value < 75) {
+            riskLevel = 'Moderate';
+            color = 'yellow';
+            riskDetails = 'Moderate risk of respiratory irritation.';
+        } else if (value < 185) {
+            riskLevel = 'High';
+            color = 'orange';
+            riskDetails = 'High risk of respiratory system irritation and problems.';
+        } else {
+            riskLevel = 'Very High';
+            color = 'red';
+            riskDetails = 'Very high risk of severe respiratory system irritation.';
+        }
+    } else if (gasName === 'NO2') {
+        if (value < 40) {
+            riskLevel = 'Low';
+            color = 'green';
+            riskDetails = 'No significant risk.';
+        } else if (value < 100) {
+            riskLevel = 'Moderate';
+            color = 'yellow';
+            riskDetails = 'Moderate risk of respiratory problems.';
+        } else if (value < 200) {
+            riskLevel = 'High';
+            color = 'orange';
+            riskDetails = 'High risk of respiratory issues and lung function impairment.';
+        } else {
+            riskLevel = 'Very High';
+            color = 'red';
+            riskDetails = 'Very high risk of severe respiratory problems.';
+        }
     }
-    // You can add more conditions to assess risk levels and details for other gases
 
     return { level: riskLevel, color, details: riskDetails };
 }
+
 
 
 // Function to display risk details in the output
@@ -137,5 +214,5 @@ function displayRiskDetails(container, gasName, riskData) {
 
 // Fetch data when the page loads
 window.addEventListener('load', () => {
-    fetchData('347AVA9T4YHHUO4M', 1, 'dataContainer'); // Replace with your API key and container ID
+    fetchData('9W440UROYTM3K2OX', 1, 'dataContainer'); // Replace with your API key and container ID
 });
